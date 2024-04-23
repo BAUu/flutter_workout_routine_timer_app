@@ -30,7 +30,8 @@ class _MainScreenState extends State<MainScreen> {
                 child: Center(
                   child: Text(
                     'Workout Routine Timer',
-                    style: TextStyle(fontSize: 32, fontFamily: 'April16thTTF-Safety'),
+                    style: TextStyle(
+                        fontSize: 32, fontFamily: 'April16thTTF-Safety'),
                   ),
                 ),
               ),
@@ -49,20 +50,24 @@ class _MainScreenState extends State<MainScreen> {
                 children: [
                   Text(
                     'Timer',
-                    style: TextStyle(fontSize: 40, fontFamily: 'April16thTTF-Safety'),
+                    style: TextStyle(
+                        fontSize: 64, fontFamily: 'April16thTTF-Safety'),
                   ),
+
                 ],
               ),
             ),
           ),
-          SizedBox(height: 32,),
+          SizedBox(
+            height: 32,
+          ),
           Container(
             width: 360,
             height: 360,
-            // margin: EdgeInsets.all(16.0),
             decoration: BoxDecoration(
               color: Color(0xff525E66),
               borderRadius: BorderRadius.circular(360 / 2),
+              border: Border.all(color: Colors.black, width: 6),
             ),
             child: TextButton(
               onPressed: () {
@@ -70,11 +75,14 @@ class _MainScreenState extends State<MainScreen> {
               },
               child: Text(
                 'Start',
-                style: TextStyle(fontSize: 80, color: Colors.black,fontFamily: 'April16thTTF-Promise'),
+                style: TextStyle(
+                    fontSize: 96,
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'April16thTTF-Promise'),
               ),
             ),
           ),
-
         ],
       ),
     );
