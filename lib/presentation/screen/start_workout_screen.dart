@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
 import 'start_workout_screen.dart';
-import 'package:go_router/go_router.dart';
 
-class MainScreen extends StatefulWidget {
-  const MainScreen({super.key});
+class StartWorkOutScreen extends StatefulWidget {
+  const StartWorkOutScreen({super.key});
 
   @override
-  State<MainScreen> createState() => _MainScreenState();
+  State<StartWorkOutScreen> createState() => _StartWorkOutScreenState();
 }
 
-class _MainScreenState extends State<MainScreen> {
-  double _selectedMinutes = 5; // 초기 선택값: 5분
-
+class _StartWorkOutScreenState extends State<StartWorkOutScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,31 +51,23 @@ class _MainScreenState extends State<MainScreen> {
               height: 240,
               child: Column(
                 children: [
-                  Text(
-                    'Break Timer',
-                    style: TextStyle(
-                      fontSize: 60,
-                      fontFamily: 'April16thTTF-Safety',
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      'Start WorkOut',
+                      style: TextStyle(
+                        fontSize: 50,
+                        fontFamily: 'April16thTTF-Safety',
+                      ),
                     ),
                   ),
                   SizedBox(height: 20),
                   Text(
-                    '$_selectedMinutes minutes',
+                    '',
                     style: TextStyle(
                       fontSize: 24,
                       fontFamily: 'April16thTTF-Safety',
                     ),
-                  ),
-                  Slider(
-                    value: _selectedMinutes,
-                    min: 1,
-                    max: 10,
-                    divisions: 9, // Slider의 구분선 수
-                    onChanged: (newValue) {
-                      setState(() {
-                        _selectedMinutes = newValue;
-                      });
-                    },
                   ),
                 ],
               ),
@@ -96,16 +85,19 @@ class _MainScreenState extends State<MainScreen> {
               border: Border.all(color: Colors.black, width: 6),
             ),
             child: TextButton(
-              onPressed: () {
-                GoRouter.of(context).go('/alim');
-              },
-              child: Text(
-                'Start',
-                style: TextStyle(
-                  fontSize: 96,
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: 'April16thTTF-Promise',
+              onPressed: () {},
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Center(
+                  child: Text(
+                    'To\nBreak\nTime',
+                    style: TextStyle(
+                      fontSize: 72,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'April16thTTF-Promise',
+                    ),
+                  ),
                 ),
               ),
             ),
