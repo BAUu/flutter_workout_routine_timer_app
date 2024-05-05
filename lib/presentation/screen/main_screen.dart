@@ -1,13 +1,30 @@
 import 'package:flutter/material.dart';
 
 class MainScreen extends StatefulWidget {
-  const MainScreen({super.key});
+  const MainScreen({Key? key}) : super(key: key);
 
   @override
   State<MainScreen> createState() => _MainScreenState();
 }
 
 class _MainScreenState extends State<MainScreen> {
+  double _selectedMinutes = 5; // 초기 선택값: 5분
+  bool _isRunning  = true;
+
+  void _toggleTimer() {
+    setState(() {
+      _isRunning = !_isRunning;
+    });
+
+    if (_isRunning) {
+      // 시작할 때 수행할 작업 추가
+      print('Timer started');
+    } else {
+      // 정지할 때 수행할 작업 추가
+      print('Timer stopped');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,7 +48,9 @@ class _MainScreenState extends State<MainScreen> {
                   child: Text(
                     'Workout Routine Timer',
                     style: TextStyle(
-                        fontSize: 32, fontFamily: 'April16thTTF-Safety'),
+                      fontSize: 32,
+                      fontFamily: 'April16thTTF-Safety',
+                    ),
                   ),
                 ),
               ),
@@ -51,9 +70,29 @@ class _MainScreenState extends State<MainScreen> {
                   Text(
                     'Timer',
                     style: TextStyle(
-                        fontSize: 64, fontFamily: 'April16thTTF-Safety'),
+                      fontSize: 64,
+                      fontFamily: 'April16thTTF-Safety',
+                    ),
                   ),
-
+                  SizedBox(height: 20),
+                  Text(
+                    '$_selectedMinutes minutes',
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontFamily: 'April16thTTF-Safety',
+                    ),
+                  ),
+                  Slider(
+                    value: _selectedMinutes,
+                    min: 1,
+                    max: 10,
+                    divisions: 9, // Slider의 구분선 수
+                    onChanged: (newValue) {
+                      setState(() {
+                        _selectedMinutes = newValue;
+                      });
+                    },
+                  ),
                 ],
               ),
             ),
@@ -71,15 +110,19 @@ class _MainScreenState extends State<MainScreen> {
             ),
             child: TextButton(
               onPressed: () {
-                // 버튼이 눌렸을 때 수행할 작업을 여기에 추가하세요.
+                // 선택한 시간을 이용하여 작업을 수행할 수 있습니다.
+                setState(() {
+                    _toggleTimer();
+                });
               },
               child: Text(
-                'Start',
+                _isRunning ? 'Start' : 'Stop',
                 style: TextStyle(
-                    fontSize: 96,
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                    fontFamily: 'April16thTTF-Promise'),
+                  fontSize: 96,
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'April16thTTF-Promise',
+                ),
               ),
             ),
           ),
