@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'start_workout_screen.dart';
 
@@ -8,7 +10,49 @@ class StartWorkOutScreen extends StatefulWidget {
   State<StartWorkOutScreen> createState() => _StartWorkOutScreenState();
 }
 
+
+
+
 class _StartWorkOutScreenState extends State<StartWorkOutScreen> {
+  Stopwatch stopwatch = Stopwatch(); // Create a Stopwatch instance
+  final duration = const Duration(microseconds: 1); // Timer tick duration
+  bool isRunning = false; // Variable to track timer state
+
+
+  @override
+  void initState() {
+    startTimer();
+    super.initState();
+  }
+  void handleTick() {
+    if (stopwatch.isRunning) {
+      setState(() {}); // UI 업데이트
+      Timer(duration, handleTick);
+    }
+  }
+
+  void startTimer() {
+    Timer(duration, handleTick);
+    stopwatch.start();
+  }
+
+  void stopTimer() {
+    stopwatch.stop();
+    stopwatch.reset();
+  }
+
+  String formattedTime() {
+    final milliseconds = stopwatch.elapsedMilliseconds;
+    final seconds = (milliseconds / 1000).truncate();
+    final minutes = (seconds / 60).truncate();
+
+    final formattedMilliseconds = (milliseconds % 1000).toString().padLeft(3, '0');
+    final formattedSeconds = (seconds % 60).toString().padLeft(2, '0');
+    final formattedMinutes = (minutes % 60).toString().padLeft(2, '0');
+
+    return '$formattedMinutes:$formattedSeconds.$formattedMilliseconds';
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,9 +107,9 @@ class _StartWorkOutScreenState extends State<StartWorkOutScreen> {
                   ),
                   SizedBox(height: 20),
                   Text(
-                    '',
+                    formattedTime(),
                     style: TextStyle(
-                      fontSize: 24,
+                      fontSize: 40,
                       fontFamily: 'April16thTTF-Safety',
                     ),
                   ),
@@ -85,7 +129,9 @@ class _StartWorkOutScreenState extends State<StartWorkOutScreen> {
               border: Border.all(color: Colors.black, width: 6),
             ),
             child: TextButton(
-              onPressed: () {},
+              onPressed: () {
+                stopTimer();
+              },
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Center(

@@ -97,7 +97,7 @@ class _MainScreenState extends State<MainScreen> {
             ),
             child: TextButton(
               onPressed: () {
-                GoRouter.of(context).go('/alim');
+                GoRouter.of(context).go('/alim'); // Navigate to '/alim' route
               },
               child: Text(
                 'Start',
