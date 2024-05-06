@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'start_workout_screen.dart';
 
 class StartWorkOutScreen extends StatefulWidget {
   const StartWorkOutScreen({super.key});
