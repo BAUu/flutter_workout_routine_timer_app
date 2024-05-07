@@ -97,7 +97,13 @@ class _MainScreenState extends State<MainScreen> {
             ),
             child: TextButton(
               onPressed: () {
-                GoRouter.of(context).go('/alim'); // Navigate to '/alim' route
+                // GoRouter.of(context).go('/alim', breakTime: _selectedMinutes); // Navigate to '/alim' route
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>  StartWorkOutScreen(breakTime: _selectedMinutes),
+                  ),
+                );
               },
               child: Text(
                 'Start',

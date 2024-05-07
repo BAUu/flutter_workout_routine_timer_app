@@ -2,8 +2,12 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
+import 'breaktime_screen.dart';
+
 class StartWorkOutScreen extends StatefulWidget {
-  const StartWorkOutScreen({super.key});
+  final double breakTime;
+
+  const StartWorkOutScreen({super.key, required this.breakTime});
 
   @override
   State<StartWorkOutScreen> createState() => _StartWorkOutScreenState();
@@ -129,7 +133,12 @@ class _StartWorkOutScreenState extends State<StartWorkOutScreen> {
             ),
             child: TextButton(
               onPressed: () {
-                stopTimer();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => BreakTimeScreen(breakTime: widget.breakTime),
+                  ),
+                );
               },
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
