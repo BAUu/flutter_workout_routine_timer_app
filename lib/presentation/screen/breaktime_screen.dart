@@ -54,6 +54,7 @@ class _BreakTimeScreenState extends State<BreakTimeScreen> {
   void onCountdownFinished() {
     // 알림 기능 구현 (예: 소리 재생, 다이얼로그 표시 등)
     print('휴식 시간이 끝났습니다!');
+    //Todo 끝났을때 무슨 기능을 넣어야할지 고민
   }
 
   @override
