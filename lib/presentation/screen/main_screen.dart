@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'start_workout_screen.dart';
-import 'package:go_router/go_router.dart';
 
 class MainScreen extends StatefulWidget {
-  const MainScreen({super.key});
+  const MainScreen({super.key,});
 
   @override
   State<MainScreen> createState() => _MainScreenState();
@@ -15,10 +14,10 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xff1D1E23),
+      backgroundColor: const Color(0xff1D1E23),
       body: Column(
         children: [
-          SizedBox(
+          const SizedBox(
             height: 32,
           ),
           Center(
@@ -26,12 +25,12 @@ class _MainScreenState extends State<MainScreen> {
               padding: const EdgeInsets.all(16),
               child: Container(
                 decoration: BoxDecoration(
-                  color: Color(0xff959EA2),
+                  color: const Color(0xff959EA2),
                   borderRadius: BorderRadius.circular(40),
                 ),
                 width: 340,
                 height: 120,
-                child: Center(
+                child: const Center(
                   child: Text(
                     'Workout Routine Timer',
                     style: TextStyle(
@@ -47,24 +46,24 @@ class _MainScreenState extends State<MainScreen> {
             padding: const EdgeInsets.all(16.0),
             child: Container(
               decoration: BoxDecoration(
-                color: Color(0xff959EA2),
+                color: const Color(0xff959EA2),
                 borderRadius: BorderRadius.circular(20),
               ),
               width: 340,
               height: 240,
               child: Column(
                 children: [
-                  Text(
-                    'Break Timer',
+                  const Text(
+                    'Break Time Set',
                     style: TextStyle(
-                      fontSize: 60,
+                      fontSize: 50,
                       fontFamily: 'April16thTTF-Safety',
                     ),
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   Text(
-                    '$_selectedMinutes minutes',
-                    style: TextStyle(
+                    '${_selectedMinutes.toInt()} minutes',
+                    style: const TextStyle(
                       fontSize: 24,
                       fontFamily: 'April16thTTF-Safety',
                     ),
@@ -84,31 +83,30 @@ class _MainScreenState extends State<MainScreen> {
               ),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 32,
           ),
           Container(
-            width: 360,
-            height: 360,
+            width: 300,
+            height: 300,
             decoration: BoxDecoration(
-              color: Color(0xff525E66),
+              color: const Color(0xff525E66),
               borderRadius: BorderRadius.circular(360 / 2),
               border: Border.all(color: Colors.black, width: 6),
             ),
             child: TextButton(
               onPressed: () {
-                // GoRouter.of(context).go('/alim', breakTime: _selectedMinutes); // Navigate to '/alim' route
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) =>  StartWorkOutScreen(breakTime: _selectedMinutes),
+                    builder: (context) => StartWorkOutScreen(breakTime: _selectedMinutes, stopwatch: Stopwatch()),
                   ),
                 );
               },
-              child: Text(
+              child: const Text(
                 'Start',
                 style: TextStyle(
-                  fontSize: 96,
+                  fontSize: 88,
                   color: Colors.black,
                   fontWeight: FontWeight.bold,
                   fontFamily: 'April16thTTF-Promise',

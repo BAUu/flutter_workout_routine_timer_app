@@ -3,47 +3,56 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 import 'breaktime_screen.dart';
-
+import 'main_screen.dart';
 class StartWorkOutScreen extends StatefulWidget {
   final double breakTime;
+  final Stopwatch stopwatch;
 
-  const StartWorkOutScreen({super.key, required this.breakTime});
+  const StartWorkOutScreen({super.key, required this.breakTime, required this.stopwatch});
 
   @override
   State<StartWorkOutScreen> createState() => _StartWorkOutScreenState();
 }
 
-
-
-
 class _StartWorkOutScreenState extends State<StartWorkOutScreen> {
-  Stopwatch stopwatch = Stopwatch(); // Create a Stopwatch instance
-  final duration = const Duration(microseconds: 1); // Timer tick duration
+  late Stopwatch stopwatch; // Create a Stopwatch instance
+  final duration = const Duration(milliseconds: 1); // Timer tick duration
   bool isRunning = false; // Variable to track timer state
-
 
   @override
   void initState() {
-    startTimer();
+    resetStopwatch(); // Reset and start the stopwatch when the screen is initialized
     super.initState();
   }
-  void handleTick() {
+
+  // Method to reset and start the stopwatch
+  void resetStopwatch() {
+    stopwatch = Stopwatch(); // Create a new Stopwatch instance
+    stopwatch.reset(); // Reset the stopwatch
+    startTimer(); // Start the timer
+  }
+
+
+  // Timer tick handler function
+  void handleTick(Timer timer) {
     if (stopwatch.isRunning) {
-      setState(() {}); // UI 업데이트
-      Timer(duration, handleTick);
+      setState(() {}); // Update UI
     }
   }
 
+  // Start the timer
   void startTimer() {
-    Timer(duration, handleTick);
+    Timer.periodic(duration, handleTick);
     stopwatch.start();
   }
 
+  // Stop the timer
   void stopTimer() {
     stopwatch.stop();
     stopwatch.reset();
   }
 
+  // Format the time for display
   String formattedTime() {
     final milliseconds = stopwatch.elapsedMilliseconds;
     final seconds = (milliseconds / 1000).truncate();
@@ -59,10 +68,10 @@ class _StartWorkOutScreenState extends State<StartWorkOutScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xff1D1E23),
+      backgroundColor: const Color(0xff1D1E23),
       body: Column(
         children: [
-          SizedBox(
+          const SizedBox(
             height: 32,
           ),
           Center(
@@ -70,12 +79,12 @@ class _StartWorkOutScreenState extends State<StartWorkOutScreen> {
               padding: const EdgeInsets.all(16),
               child: Container(
                 decoration: BoxDecoration(
-                  color: Color(0xff959EA2),
+                  color: const Color(0xff959EA2),
                   borderRadius: BorderRadius.circular(40),
                 ),
                 width: 340,
                 height: 120,
-                child: Center(
+                child: const Center(
                   child: Text(
                     'Workout Routine Timer',
                     style: TextStyle(
@@ -91,15 +100,15 @@ class _StartWorkOutScreenState extends State<StartWorkOutScreen> {
             padding: const EdgeInsets.all(16.0),
             child: Container(
               decoration: BoxDecoration(
-                color: Color(0xff959EA2),
+                color: const Color(0xff959EA2),
                 borderRadius: BorderRadius.circular(20),
               ),
               width: 340,
               height: 240,
               child: Column(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
+                  const Padding(
+                    padding: EdgeInsets.all(8.0),
                     child: Text(
                       'Start WorkOut',
                       style: TextStyle(
@@ -108,45 +117,68 @@ class _StartWorkOutScreenState extends State<StartWorkOutScreen> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   Text(
                     formattedTime(),
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 40,
                       fontFamily: 'April16thTTF-Safety',
                     ),
                   ),
+                  SizedBox(
+                    height: 24,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      TextButton(
+                          onPressed: () {
+                            stopwatch.reset(); // 스탑와치 초기화
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const MainScreen(),
+                              ),
+                            );
+                          },
+                          child: const Text(
+                            'Reset',
+                            style: TextStyle(color: Colors.white),
+                          ))
+                    ],
+                  )
                 ],
               ),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 32,
           ),
           Container(
-            width: 360,
-            height: 360,
+            width: 300,
+            height: 300,
             decoration: BoxDecoration(
-              color: Color(0xff525E66),
+              color: const Color(0xff525E66),
               borderRadius: BorderRadius.circular(360 / 2),
               border: Border.all(color: Colors.black, width: 6),
             ),
             child: TextButton(
               onPressed: () {
+                // Navigate back to the BreakTimeScreen and reset the stopwatch
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => BreakTimeScreen(breakTime: widget.breakTime),
+                    builder: (context) => BreakTimeScreen(breakTime: widget.breakTime, stopwatch: stopwatch),
                   ),
                 );
               },
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
+              child: const Padding(
+                padding: EdgeInsets.all(8.0),
                 child: Center(
                   child: Text(
                     'To\nBreak\nTime',
                     style: TextStyle(
-                      fontSize: 72,
+                      fontSize: 62,
                       color: Colors.black,
                       fontWeight: FontWeight.bold,
                       fontFamily: 'April16thTTF-Promise',
