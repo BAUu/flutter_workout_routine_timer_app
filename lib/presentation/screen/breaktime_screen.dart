@@ -29,7 +29,7 @@ class _BreakTimeScreenState extends State<BreakTimeScreen> {
   void initState() {
     super.initState();
     breakTimeInSeconds =
-        widget.breakTime * 6; // StartWorkOutScreen 에서 전달받은 휴식 시간
+        widget.breakTime * 60; // StartWorkOutScreen 에서 전달받은 휴식 시간
     stopwatch = widget.stopwatch; // StartWorkOutScreen에서 전달받은 스탑와치 인스턴스
     remainingTime = breakTimeInSeconds; // 남은 휴식 시간 초기화
     _breakTime = widget.breakTime;
