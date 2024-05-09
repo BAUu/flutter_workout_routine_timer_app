@@ -1,6 +1,9 @@
 import 'dart:async';
 
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+import 'package:vibration/vibration.dart';
+// import 'package:vibration/vibration.dart';
 import 'package:workout_routine_timer_app/presentation/screen/main_screen.dart';
 import 'start_workout_screen.dart';
 
@@ -26,7 +29,7 @@ class _BreakTimeScreenState extends State<BreakTimeScreen> {
   void initState() {
     super.initState();
     breakTimeInSeconds =
-        widget.breakTime * 60; // StartWorkOutScreen 에서 전달받은 휴식 시간
+        widget.breakTime * 6; // StartWorkOutScreen 에서 전달받은 휴식 시간
     stopwatch = widget.stopwatch; // StartWorkOutScreen에서 전달받은 스탑와치 인스턴스
     remainingTime = breakTimeInSeconds; // 남은 휴식 시간 초기화
     _breakTime = widget.breakTime;
@@ -51,10 +54,11 @@ class _BreakTimeScreenState extends State<BreakTimeScreen> {
     });
   }
 
-  void onCountdownFinished() {
-    // 알림 기능 구현 (예: 소리 재생, 다이얼로그 표시 등)
-    print('휴식 시간이 끝났습니다!');
-    //Todo 끝났을때 무슨 기능을 넣어야할지 고민
+  void onCountdownFinished() async {
+    final player = AudioPlayer();
+    await player.play(AssetSource('audio/alim.mp3'), volume: 100);
+    Vibration.vibrate();
+
   }
 
   @override
