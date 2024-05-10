@@ -15,63 +15,6 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   double _selectedMinutes = 5; // 초기 선택값: 5분
 
-  // final FlutterLocalNotificationsPlugin _local =
-  //     FlutterLocalNotificationsPlugin();
-
-  // void _permissionWithNotification() async {
-  //   if (await Permission.notification.isDenied &&
-  //       !await Permission.notification.isPermanentlyDenied) {
-  //     await [Permission.notification].request();
-  //   }
-  // }
-
-  // Future<void> _initNotiSetting() async {
-  //   //Notification 플러그인 객체 생성
-  //
-  //   //안드로이드 초기 설정
-  //   final AndroidInitializationSettings initSettingsAndroid =
-  //       AndroidInitializationSettings("app_icon");
-
-    //IOS 초기 설정
-    // final DarwinInitializationSettings initSettingsIos =
-    //     DarwinInitializationSettings(
-    //         requestAlertPermission: false,
-    //         requestSoundPermission: false,
-    //         requestBadgePermission: false);
-    //
-    // //Notification에 위에서 설정한 안드로이드, IOS 초기 설정 값 삽입
-    // final InitializationSettings initSettings = InitializationSettings(
-    //   android: initSettingsAndroid,
-    //   iOS: initSettingsIos,
-    // );
-    // await _local.initialize(initSettings);
-    // //Notification 초기 설정
-  // }
-
-  // void test() async {
-  //   NotificationDetails details = const NotificationDetails(
-  //     iOS: DarwinNotificationDetails(
-  //       presentAlert: true,
-  //       presentBadge: true,
-  //       presentSound: true,
-  //     ),
-  //     android: AndroidNotificationDetails(
-  //       "1",
-  //       "test",
-  //       importance: Importance.max,
-  //       priority: Priority.high,
-  //     ),
-  //   );
-  //
-  //   await _local.show(1, "title", "body", details);
-  // }
-
-  // @override
-  // void initState() async {
-  //   super.initState();
-  //   _permissionWithNotification();
-  //   await _initNotiSetting();
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -159,7 +102,6 @@ class _MainScreenState extends State<MainScreen> {
             ),
             child: TextButton(
               onPressed: () {
-                // test();
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -184,3 +126,62 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 }
+
+
+// final FlutterLocalNotificationsPlugin _local =
+//     FlutterLocalNotificationsPlugin();
+
+// void _permissionWithNotification() async {
+//   if (await Permission.notification.isDenied &&
+//       !await Permission.notification.isPermanentlyDenied) {
+//     await [Permission.notification].request();
+//   }
+// }
+
+// Future<void> _initNotiSetting() async {
+//   //Notification 플러그인 객체 생성
+//
+//   //안드로이드 초기 설정
+//   final AndroidInitializationSettings initSettingsAndroid =
+//       AndroidInitializationSettings("app_icon");
+
+//IOS 초기 설정
+// final DarwinInitializationSettings initSettingsIos =
+//     DarwinInitializationSettings(
+//         requestAlertPermission: false,
+//         requestSoundPermission: false,
+//         requestBadgePermission: false);
+//
+// //Notification에 위에서 설정한 안드로이드, IOS 초기 설정 값 삽입
+// final InitializationSettings initSettings = InitializationSettings(
+//   android: initSettingsAndroid,
+//   iOS: initSettingsIos,
+// );
+// await _local.initialize(initSettings);
+// //Notification 초기 설정
+// }
+
+// void test() async {
+//   NotificationDetails details = const NotificationDetails(
+//     iOS: DarwinNotificationDetails(
+//       presentAlert: true,
+//       presentBadge: true,
+//       presentSound: true,
+//     ),
+//     android: AndroidNotificationDetails(
+//       "1",
+//       "test",
+//       importance: Importance.max,
+//       priority: Priority.high,
+//     ),
+//   );
+//
+//   await _local.show(1, "title", "body", details);
+// }
+
+// @override
+// void initState() async {
+//   super.initState();
+//   _permissionWithNotification();
+//   await _initNotiSetting();
+// }
