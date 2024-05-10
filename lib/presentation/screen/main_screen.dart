@@ -13,7 +13,7 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  double _selectedMinutes = 5; // 초기 선택값: 5분
+  double _selectedMinutes = 1; // 초기 선택값: 5분
 
 
   @override
@@ -67,7 +67,7 @@ class _MainScreenState extends State<MainScreen> {
                   ),
                   const SizedBox(height: 20),
                   Text(
-                    '${_selectedMinutes.toInt()} minutes',
+                    '${_selectedMinutes} minutes',
                     style: const TextStyle(
                       fontSize: 24,
                       fontFamily: 'April16thTTF-Safety',
@@ -75,9 +75,9 @@ class _MainScreenState extends State<MainScreen> {
                   ),
                   Slider(
                     value: _selectedMinutes,
-                    min: 1,
+                    min: 0.5,
                     max: 10,
-                    divisions: 9,
+                    divisions: 19,
                     // Slider의 구분선 수
                     onChanged: (newValue) {
                       setState(() {
