@@ -1,10 +1,10 @@
-import 'dart:ffi';
+// import 'dart:ffi';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:workout_routine_timer_app/presentation/screen/start_workout_screen.dart';
+// import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+// import 'package:workout_routine_timer_app/presentation/screen/start_workout_screen.dart';
 import 'package:workout_routine_timer_app/presentation/screen/main_screen.dart';
-import 'package:go_router/go_router.dart';
+// import 'package:go_router/go_router.dart';
 
 void main() {
   runApp(const MyApp());
@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.white),
         useMaterial3: true,
       ),
-      home: MainScreen(),
+      home: const MainScreen(),
     );
   }
 }
