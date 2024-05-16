@@ -1,14 +1,21 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import 'breaktime_screen.dart';
 import 'main_screen.dart';
+
 class StartWorkOutScreen extends StatefulWidget {
   final double breakTime;
   final Stopwatch stopwatch;
+  final PermissionStatus notificationPermission;
 
-  const StartWorkOutScreen({super.key, required this.breakTime, required this.stopwatch});
+  const StartWorkOutScreen(
+      {super.key,
+      required this.breakTime,
+      required this.stopwatch,
+      required this.notificationPermission});
 
   @override
   State<StartWorkOutScreen> createState() => _StartWorkOutScreenState();
@@ -18,11 +25,14 @@ class _StartWorkOutScreenState extends State<StartWorkOutScreen> {
   late Stopwatch stopwatch; // Create a Stopwatch instance
   final duration = const Duration(milliseconds: 1); // Timer tick duration
   bool isRunning = false; // Variable to track timer state
+  late PermissionStatus _notification;
+
 
   @override
   void initState() {
     resetStopwatch(); // Reset and start the stopwatch when the screen is initialized
     super.initState();
+    _notification = widget.notificationPermission;
   }
 
   // Method to reset and start the stopwatch
@@ -31,7 +41,6 @@ class _StartWorkOutScreenState extends State<StartWorkOutScreen> {
     stopwatch.reset(); // Reset the stopwatch
     startTimer(); // Start the timer
   }
-
 
   // Timer tick handler function
   void handleTick(Timer timer) {
@@ -58,7 +67,8 @@ class _StartWorkOutScreenState extends State<StartWorkOutScreen> {
     final seconds = (milliseconds / 1000).truncate();
     final minutes = (seconds / 60).truncate();
 
-    final formattedMilliseconds = (milliseconds % 1000).toString().padLeft(3, '0');
+    final formattedMilliseconds =
+        (milliseconds % 1000).toString().padLeft(3, '0');
     final formattedSeconds = (seconds % 60).toString().padLeft(2, '0');
     final formattedMinutes = (minutes % 60).toString().padLeft(2, '0');
 
@@ -125,7 +135,7 @@ class _StartWorkOutScreenState extends State<StartWorkOutScreen> {
                       fontFamily: 'April16thTTF-Safety',
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 24,
                   ),
                   Row(
@@ -168,7 +178,11 @@ class _StartWorkOutScreenState extends State<StartWorkOutScreen> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => BreakTimeScreen(breakTime: widget.breakTime, stopwatch: stopwatch),
+                    builder: (context) => BreakTimeScreen(
+                      breakTime: widget.breakTime,
+                      stopwatch: stopwatch,
+                      notificationPermission: _notification,
+                    ),
                   ),
                 );
               },
