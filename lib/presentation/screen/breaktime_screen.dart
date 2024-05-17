@@ -1,18 +1,23 @@
 import 'dart:async';
-
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:vibration/vibration.dart';
-// import 'package:vibration/vibration.dart';
 import 'package:workout_routine_timer_app/presentation/screen/main_screen.dart';
+import '../../core/local_notification_setting.dart';
 import 'start_workout_screen.dart';
 
 class BreakTimeScreen extends StatefulWidget {
   final double breakTime;
   final Stopwatch stopwatch;
+  final PermissionStatus notificationPermission;
 
   const BreakTimeScreen(
-      {super.key, required this.breakTime, required this.stopwatch});
+      {super.key,
+      required this.breakTime,
+      required this.stopwatch,
+      required this.notificationPermission});
 
   @override
   State<BreakTimeScreen> createState() => _BreakTimeScreenState();
@@ -24,6 +29,7 @@ class _BreakTimeScreenState extends State<BreakTimeScreen> {
   late Stopwatch stopwatch; // 스탑와치 인스턴스
   late Timer countdownTimer; // 타이머 인스턴스
   late double _breakTime;
+  late PermissionStatus _notification;
 
   @override
   void initState() {
@@ -33,7 +39,7 @@ class _BreakTimeScreenState extends State<BreakTimeScreen> {
     stopwatch = widget.stopwatch; // StartWorkOutScreen에서 전달받은 스탑와치 인스턴스
     remainingTime = breakTimeInSeconds; // 남은 휴식 시간 초기화
     _breakTime = widget.breakTime;
-
+    _notification = widget.notificationPermission;
     countdownTimer = Timer.periodic(
         const Duration(seconds: 1), updateRemainingTime); // 1초마다 남은 시간 업데이트
   }
@@ -48,8 +54,9 @@ class _BreakTimeScreenState extends State<BreakTimeScreen> {
     setState(() {
       remainingTime = remainingTime - 1; // 남은 시간 업데이트
       if (remainingTime <= 0) {
-        onCountdownFinished(); // 휴식 시간 종료 시 알림
+         // 휴식 시간 종료 시 알림
         timer.cancel(); // 타이머 해제
+        onCountdownFinished();
       }
     });
   }
@@ -58,7 +65,25 @@ class _BreakTimeScreenState extends State<BreakTimeScreen> {
     final player = AudioPlayer();
     await player.play(AssetSource('audio/alim.mp3'), volume: 100);
     Vibration.vibrate();
-
+    NotificationDetails details = const NotificationDetails(
+      iOS: DarwinNotificationDetails(
+        presentAlert: true,
+        presentBadge: true,
+        presentSound: true,
+      ),
+      android: AndroidNotificationDetails(
+        "show_timeout",
+        "show_timeout",
+        importance: Importance.max,
+        priority: Priority.high,
+      ),
+    );
+    await localNotification.show(
+      0,
+      "Break time is over!",
+      "Let's start working out hard again",
+      details,
+    );
   }
 
   @override
@@ -127,7 +152,7 @@ class _BreakTimeScreenState extends State<BreakTimeScreen> {
                       fontFamily: 'April16thTTF-Safety',
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 24,
                   ),
                   Row(
@@ -136,7 +161,8 @@ class _BreakTimeScreenState extends State<BreakTimeScreen> {
                       TextButton(
                           onPressed: () {
                             stopwatch.reset(); // 스탑와치 초기화
-                            Navigator.push(
+                            Navigator.pop(context);
+                            Navigator.pop(
                               context,
                               MaterialPageRoute(
                                 builder: (context) => const MainScreen(),
@@ -173,6 +199,7 @@ class _BreakTimeScreenState extends State<BreakTimeScreen> {
                     builder: (context) => StartWorkOutScreen(
                       breakTime: _breakTime,
                       stopwatch: stopwatch,
+                      notificationPermission: _notification,
                     ),
                   ),
                 );
@@ -193,7 +220,6 @@ class _BreakTimeScreenState extends State<BreakTimeScreen> {
               ),
             ),
           ),
-
         ],
       ),
     );
