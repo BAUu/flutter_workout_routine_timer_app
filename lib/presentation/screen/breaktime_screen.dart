@@ -92,135 +92,170 @@ class _BreakTimeScreenState extends State<BreakTimeScreen> {
     super.dispose();
   }
 
+  Future<bool?> _showExitConfirmationDialog() {
+    return showDialog<bool>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Exit App?'),
+          content: const Text('Are you sure you want to exit the app?'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(false),
+              child: const Text('No'),
+            ),
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(true),
+              child: const Text('Yes'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xff1D1E23),
-      body: Column(
-        children: [
-          const SizedBox(
-            height: 32,
-          ),
-          Center(
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Container(
-                decoration: BoxDecoration(
-                  color: const Color(0xff959EA2),
-                  borderRadius: BorderRadius.circular(40),
-                ),
-                width: 340,
-                height: 120,
-                child: const Center(
-                  child: Text(
-                    'Workout Routine Timer',
-                    style: TextStyle(
-                      fontSize: 32,
-                      fontFamily: 'April16thTTF-Safety',
-                    ),
-                  ),
-                ),
-              ),
+    return PopScope(
+      onPopInvoked: (bool didPop) async {
+      if (didPop) {
+        return;
+      }
+      final bool shouldExit = await _showExitConfirmationDialog() ?? false;
+      if (shouldExit) {
+        if (context.mounted) {
+          Navigator.of(context).pop();
+        }
+      }
+      },
+      child: Scaffold(
+        backgroundColor: const Color(0xff1D1E23),
+        body: Column(
+          children: [
+            const SizedBox(
+              height: 32,
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Container(
-              decoration: BoxDecoration(
-                color: const Color(0xff959EA2),
-                borderRadius: BorderRadius.circular(20),
-              ),
-              width: 340,
-              height: 240,
-              child: Column(
-                children: [
-                  const Padding(
-                    padding: EdgeInsets.all(8.0),
+            Center(
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: const Color(0xff959EA2),
+                    borderRadius: BorderRadius.circular(40),
+                  ),
+                  width: 340,
+                  height: 120,
+                  child: const Center(
                     child: Text(
-                      'Break Time',
+                      'Workout Routine Timer',
                       style: TextStyle(
-                        fontSize: 50,
+                        fontSize: 32,
                         fontFamily: 'April16thTTF-Safety',
                       ),
                     ),
                   ),
-                  const SizedBox(height: 20),
-                  Text(
-                    formattedRemainingTime(),
-                    style: const TextStyle(
-                      fontSize: 40,
-                      fontFamily: 'April16thTTF-Safety',
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 24,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      TextButton(
-                          onPressed: () {
-                            stopwatch.reset(); // 스탑와치 초기화
-                            Navigator.pop(context);
-                            Navigator.pop(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const MainScreen(),
-                              ),
-                            );
-                          },
-                          child: const Text(
-                            'Reset',
-                            style: TextStyle(color: Colors.white),
-                          ))
-                    ],
-                  )
-                ],
+                ),
               ),
             ),
-          ),
-          const SizedBox(
-            height: 24,
-          ),
-          Container(
-            width: 300,
-            height: 300,
-            decoration: BoxDecoration(
-              color: const Color(0xff525E66),
-              borderRadius: BorderRadius.circular(360 / 2),
-              border: Border.all(color: Colors.black, width: 6),
-            ),
-            child: TextButton(
-              onPressed: () {
-                stopwatch.reset(); // 스탑와치 초기화
-                Navigator.pop(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => StartWorkOutScreen(
-                      breakTime: _breakTime,
-                      stopwatch: stopwatch,
-                      notificationPermission: _notification,
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: const Color(0xff959EA2),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                width: 340,
+                height: 240,
+                child: Column(
+                  children: [
+                    const Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Text(
+                        'Break Time',
+                        style: TextStyle(
+                          fontSize: 50,
+                          fontFamily: 'April16thTTF-Safety',
+                        ),
+                      ),
                     ),
-                  ),
-                );
-              },
-              child: const Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Center(
-                  child: Text(
-                    'Restart',
-                    style: TextStyle(
-                      fontSize: 72,
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: 'April16thTTF-Promise',
+                    const SizedBox(height: 20),
+                    Text(
+                      formattedRemainingTime(),
+                      style: const TextStyle(
+                        fontSize: 40,
+                        fontFamily: 'April16thTTF-Safety',
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 24,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        TextButton(
+                            onPressed: () {
+                              stopwatch.reset(); // 스탑와치 초기화
+                              Navigator.pop(context);
+                              Navigator.pop(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const MainScreen(),
+                                ),
+                              );
+                            },
+                            child: const Text(
+                              'Reset',
+                              style: TextStyle(color: Colors.white),
+                            ))
+                      ],
+                    )
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 24,
+            ),
+            Container(
+              width: 300,
+              height: 300,
+              decoration: BoxDecoration(
+                color: const Color(0xff525E66),
+                borderRadius: BorderRadius.circular(360 / 2),
+                border: Border.all(color: Colors.black, width: 6),
+              ),
+              child: TextButton(
+                onPressed: () {
+                  stopwatch.reset(); // 스탑와치 초기화
+                  Navigator.pop(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => StartWorkOutScreen(
+                        breakTime: _breakTime,
+                        stopwatch: stopwatch,
+                        notificationPermission: _notification,
+                      ),
+                    ),
+                  );
+                },
+                child: const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Center(
+                    child: Text(
+                      'Restart',
+                      style: TextStyle(
+                        fontSize: 72,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'April16thTTF-Promise',
+                      ),
                     ),
                   ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
